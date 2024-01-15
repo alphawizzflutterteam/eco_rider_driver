@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "187540105974",
+    "project_id": "ecorider-user",
+    "storage_bucket": "ecorider-user.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187540105974:android:9fc0d911126022c2609ad7",
+        "android_client_info": {
+          "package_name": "com.driver.eco_rider_driver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGWy9IwL08w1ccCg_xwCmCG4XwpuGAHW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187540105974:android:9880e7d1e9f9c459609ad7",
+        "android_client_info": {
+          "package_name": "com.user.eco_rider_user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGWy9IwL08w1ccCg_xwCmCG4XwpuGAHW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
