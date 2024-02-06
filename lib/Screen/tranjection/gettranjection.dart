@@ -7,6 +7,7 @@ import '../../Api services/api_services/apiBasehelper.dart';
 import '../../Api services/api_services/apiStrings.dart';
 import '../../Helper/Colors.dart';
 import '../../Helper/loadingwidget.dart';
+import '../../Model/getTranjectionModel.dart';
 import '../../Model/tranjectionModel.dart';
 import '../auth/custumScreen.dart';
 
@@ -52,21 +53,21 @@ class _TranjectionState extends State<Tranjection> {
 
                     Text("Wallet Balance",style: TextStyle(fontWeight: FontWeight.w500,color: AppColors.blackTemp,fontSize: 20),),
                     SizedBox(height: 5,),
-                    Text("\u{20B9} ${balance??''} /-",style: TextStyle(color:  Colors.green,fontSize: 18),),
+                    Text("\u{20B9} ${balance??'0'} /-",style: TextStyle(color:  Colors.green,fontSize: 18),),
 
                     Column(
                         children: [
                           SizedBox(height: 20,),
 
                           Divider(color: AppColors.tabtextColor,),
-SizedBox(height: 5,),
+                          SizedBox(height: 5,),
                           Row(
                             children: [
                               SizedBox(width: 20,),
                               Text("Transaction History",style: TextStyle(fontWeight: FontWeight.w500,color: AppColors.blackTemp,fontSize: 20),),
                             ],
                           ),
-SizedBox(height: 10,),
+                          SizedBox(height: 10,),
 
                           !isLoading?
                           tranjectionList.isEmpty?Container(
@@ -76,112 +77,112 @@ SizedBox(height: 10,),
                             child: Center(child: Text('Transaction History Not Found'),),
                           ):
 
-                              Container(
-                                height: MediaQuery.of(context).size.height/1.7,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15),
-                                  child: ListView.builder(
+                          Container(
+                            height: MediaQuery.of(context).size.height/1.7,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15),
+                              child: ListView.builder(
 
-                                    shrinkWrap: true,
-                                    itemCount: tranjectionList.length,
-                                    itemBuilder: (context, index) {
+                                shrinkWrap: true,
+                                itemCount: tranjectionList.length,
+                                itemBuilder: (context, index) {
 
-                                    return
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 7),
-                                          child: Container(
-height: 150,
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(13),
+                                  return
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 7),
+                                      child: Container(
+                                        height: 150,
+                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(13),
 
-                                                border: Border.all(color: AppColors.primary,width: 1)
-                                            ),
+                                            border: Border.all(color: AppColors.primary,width: 1)
+                                        ),
 
-child: Padding(
-  padding: const EdgeInsets.all(10),
-  child:   Column(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child:   Column(
 
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
 
-    Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Transaction Type",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),),
-        Spacer(),
-        SizedBox(
-            width: MediaQuery.of(context).size.width/2.3,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Text("${tranjectionList[index].transactionType??""}",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("Transaction Type",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),),
+                                                    Spacer(),
+                                                    SizedBox(
+                                                        width: MediaQuery.of(context).size.width/2.3,
+                                                        child: Align(
+                                                          alignment: Alignment.topRight,
+                                                          child: Text("${tranjectionList[index].gatewayName??""}",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),
 
-                maxLines: 3,overflow: TextOverflow.ellipsis,
-              ),
-            )),
-      ],
-    ),
-    Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Payment Type",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),),
-        Spacer(),
-        SizedBox(
-            width: MediaQuery.of(context).size.width/2.3,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Text("${tranjectionList[index].type??""}",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),
+                                                            maxLines: 3,overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                        )),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("Payment Type",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),),
+                                                    Spacer(),
+                                                    SizedBox(
+                                                        width: MediaQuery.of(context).size.width/2.3,
+                                                        child: Align(
+                                                          alignment: Alignment.topRight,
+                                                          child: Text("${tranjectionList[index].gatewayName??""}",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),
 
-                maxLines: 3,overflow: TextOverflow.ellipsis,
-              ),
-            )),
-      ],
-    ),
+                                                            maxLines: 3,overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                        )),
+                                                  ],
+                                                ),
 
-    Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Transaction Amount",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),),
-        Spacer(),
-        SizedBox(
-            width: MediaQuery.of(context).size.width/2.3,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Text("${tranjectionList[index].amount??""} /-",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("Transaction Amount",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),),
+                                                    Spacer(),
+                                                    SizedBox(
+                                                        width: MediaQuery.of(context).size.width/2.3,
+                                                        child: Align(
+                                                          alignment: Alignment.topRight,
+                                                          child: Text("${tranjectionList[index].balance??""} /-",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),
 
-                maxLines: 3,overflow: TextOverflow.ellipsis,
-              ),
-            )),
-      ],
-    ),
+                                                            maxLines: 3,overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                        )),
+                                                  ],
+                                                ),
 
-    Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Transaction Date",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),),
-        Spacer(),
-        SizedBox(
-            width: MediaQuery.of(context).size.width/2.3,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Text("${tranjectionList[index].transactionDate.day??""}-${tranjectionList[index].transactionDate.month??""}-${tranjectionList[index].transactionDate.year??""}",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("Transaction Date",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),),
+                                                    Spacer(),
+                                                    SizedBox(
+                                                        width: MediaQuery.of(context).size.width/2.3,
+                                                        child: Align(
+                                                          alignment: Alignment.topRight,
+                                                          child: Text("${tranjectionList[index].txnDate??""}",style: TextStyle(fontWeight:FontWeight.bold,color: AppColors.tabtextColor,fontSize: 15),
 
-                maxLines: 3,overflow: TextOverflow.ellipsis,
-              ),
-            )),
-      ],
-    ),
+                                                            maxLines: 3,overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                        )),
+                                                  ],
+                                                ),
 
-  ]),
-),
-                                          ),
-                                        );
+                                              ]),
+                                        ),
+                                      ),
+                                    );
 
-                                  },),
-                                ),
-                              )
+                                },),
+                            ),
+                          )
                               :
 
 
@@ -204,8 +205,8 @@ child: Padding(
   }
   bool isLoading=false;
   var userId;
-var balance;
-  List<TranjectionListtt> tranjectionList=[];
+  var balance;
+  List<TranjectionModelList> tranjectionList=[];
   Future<void> getTranjection() async {
     setState(() {
       isLoading=true;
@@ -216,16 +217,24 @@ var balance;
       'user_id': userId.toString(),
 
     };
-    apiBaseHelper.postAPICall(GetWallecturl,param ).then((getDta){
 
-      if(getDta['error']==false){
+    apiBaseHelper.postAPICall(getTranjectionHistoryUrl,param ).then((getDta){
+
+      if(getDta['status']==true){
         setState(() {
-          balance=getDta['balance'];
-          tranjectionList=  TranjectionModel.fromJson(getDta).data??[];
+          balance=getDta['wallet'];
+          tranjectionList=  GetTranjectionHistory.fromJson(getDta).data??[];
           setState(() {
             isLoading=false;
           });
         });
+
+      }else{
+        tranjectionList.clear();
+        setState(() {
+          isLoading=false;
+        });
+
 
       }
 

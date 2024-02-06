@@ -38,8 +38,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return
-
-
       WillPopScope(
         onWillPop: () async {
           showDialog(
@@ -91,7 +89,7 @@ class _DashboardState extends State<Dashboard> {
                     backgroundColor: AppColors.primary,
                     unselectedForegroundColor: Colors.white,
                     //  selectedIndex == 1 ? colors.primary : colors.white10,
-                    extras: {"label": "Driver Details"}),
+                    extras: {"label": "Complete"}),
                 FluidNavBarIcon(
                     icon: Icons.person,
                     // unselectedForegroundColor: Colors.grey,

@@ -25,24 +25,36 @@ class BookingModel {
 
 class CompleateDeliver {
   String? id;
-  String? title;
+  String ?title;
   String ?message;
-  String ?driverId;
-  String  ?userId;
-  dynamic ? address;
-  String ? bookingId;
-  String  ?readUnread;
-  String ? deleteStatus;
-  DateTime ? addedNotifyDate;
-  String ? notiId;
-  String  ?assignedBy;
-  String ? area;
-  String  ?cityName;
-  String ? amount;
-  DateTime ? departureDate;
-  DateTime ? returnDate;
-  String  ?userEmail;
-  String ? username;
+  String? driverId;
+  String ?userId;
+  dynamic address;
+  String? bookingId;
+  String ?readUnread;
+  String? deleteStatus;
+  String? addedNotifyDate;
+  String? notiId;
+  String? assignedBy;
+  dynamic area;
+  String? amount;
+  String? userImage;
+  dynamic departureDate;
+  dynamic returnDate;
+  String? userEmail;
+  String? mobile;
+  String? userLat;
+  String? userLang;
+  String? username;
+  String? pickupDate;
+  String? pickupTime;
+  String? pickupAddress;
+  String ?dropAddress;
+  String ?inOutCity;
+  String ?oneTowWay;
+  String? bookingTimes;
+  String? bookingTypes;
+  String? reportingTime;
 
   CompleateDeliver({
     this.id,
@@ -58,12 +70,24 @@ class CompleateDeliver {
     this.notiId,
     this.assignedBy,
     this.area,
-    this.cityName,
     this.amount,
+    this.userImage,
     this.departureDate,
     this.returnDate,
     this.userEmail,
+    this.mobile,
+    this.userLat,
+    this.userLang,
     this.username,
+    this.pickupDate,
+    this.pickupTime,
+    this.pickupAddress,
+    this.dropAddress,
+    this.inOutCity,
+    this.oneTowWay,
+    this.bookingTimes,
+    this.bookingTypes,
+    this.reportingTime,
   });
 
   factory CompleateDeliver.fromJson(Map<String, dynamic> json) => CompleateDeliver(
@@ -76,16 +100,28 @@ class CompleateDeliver {
     bookingId: json["booking_id"]??"",
     readUnread: json["read_unread"]??"",
     deleteStatus: json["delete_status"]??"",
-    addedNotifyDate: DateTime.parse(json["added_notify_date"]),
+    addedNotifyDate: json["added_notify_date"]??"",
     notiId: json["noti_id"]??"",
     assignedBy: json["assigned_by"]??"",
-    area: json["area"],
-    cityName: json["city_name"]??"",
+    area: json["area"]??"",
     amount: json["amount"]??"",
-    departureDate: DateTime.parse(json["departure_date"]),
-    returnDate: DateTime.parse(json["return_date"]),
+    userImage: json["user_image"]??"",
+    departureDate: json["departure_date"]??"",
+    returnDate: json["return_date"]??"",
     userEmail: json["user_email"]??"",
+    mobile: json["mobile"]??"",
+    userLat: json["latitude"]??"",
+    userLang: json["longitude"]??"",
     username: json["username"]??"",
+    pickupDate: json["pickup_date"]??"",
+    pickupTime: json["pickup_time"]??"",
+    pickupAddress: json["pickup_address"]??"",
+    dropAddress: json["drop_address"]??"",
+    inOutCity: json["in_out_city"]??"",
+    oneTowWay: json["one_tow_way"]??"",
+    bookingTimes: json["booking_times"]??"",
+    bookingTypes: json["booking_types"]??"",
+    reportingTime: json["reporting_time"]??"",
   );
 
   Map<String, dynamic> toJson() => {
@@ -102,11 +138,23 @@ class CompleateDeliver {
     "noti_id": notiId,
     "assigned_by": assignedBy,
     "area": area,
-    "city_name": cityName,
     "amount": amount,
+    "user_image": userImage,
     "departure_date": departureDate,
-    "return_date":returnDate,
+    "return_date": returnDate,
     "user_email": userEmail,
+    "mobile": mobile,
+    "latitude": userLat,
+    "longitude": userLang,
     "username": username,
+    "pickup_date": pickupDate,
+    "pickup_time": pickupTime,
+    "pickup_address": pickupAddress,
+    "drop_address": dropAddress,
+    "in_out_city": inOutCity,
+    "one_tow_way": oneTowWay,
+    "booking_times": bookingTimes,
+    "booking_types": bookingTypes,
+    "reporting_time": reportingTime,
   };
 }

@@ -1097,9 +1097,13 @@ class _UpdateProfileState extends State<UpdateProfile> {
       bool error =getDta['status'];
       String msg =getDta['message'];
       if(error==true){
-        setState(() {
+        print("===my technic==== api===${getDta['data']['gender']}===============");
+        String getGender = "${getDta['data']['gender']}";
+        String capitalizedA = "${getGender[0].toUpperCase()}${getGender.substring(1)}";
 
-            _selectvehiclecat=getDta['data']['gender'].toString();
+        setState(() {
+print("===my technic=====convert==${capitalizedA}===============");
+            _selectvehiclecat=capitalizedA.toString();
           ownernameController.text=getDta['data']['user_name'].toString();
           emailC.text=getDta['data']['email'].toString();
           mobilecontroller.text=getDta['data']['phone'].toString();

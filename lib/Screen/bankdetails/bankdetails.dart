@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:eco_rider_driver/Api%20services/api_services/apiBasehelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../Api services/api_services/apiStrings.dart';
@@ -124,13 +125,13 @@ class _BankDetailsScrState extends State<BankDetailsScr> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please Enter Bank Name';
-                        }
-
-                        return null; // Return null if the input is valid
-                      },
+                      // validator: (value) {
+                      //   if (value!.isEmpty) {
+                      //     return 'Please Enter Bank Name';
+                      //   }
+                      //
+                      //   return null; // Return null if the input is valid
+                      // },
                     ),
                     const SizedBox(
                       height: 8,
@@ -165,12 +166,12 @@ class _BankDetailsScrState extends State<BankDetailsScr> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please Enter Account Number';
-                        }
-                        return null; // Return null if the input is valid
-                      },
+                      // validator: (value) {
+                      //   if (value!.isEmpty) {
+                      //     return 'Please Enter Account Number';
+                      //   }
+                      //   return null; // Return null if the input is valid
+                      // },
                     ),
                     const SizedBox(
                       height: 8,
@@ -205,13 +206,13 @@ class _BankDetailsScrState extends State<BankDetailsScr> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please Enter IFSC Code';
-                        }
-
-                        return null; // Return null if the input is valid
-                      },
+                      // validator: (value) {
+                      //   if (value!.isEmpty) {
+                      //     return 'Please Enter IFSC Code';
+                      //   }
+                      //
+                      //   return null; // Return null if the input is valid
+                      // },
                     ),
                     const SizedBox(
                       height: 8,
@@ -245,23 +246,53 @@ class _BankDetailsScrState extends State<BankDetailsScr> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please Enter UPI Id';
-                        } else if (!value.contains("@")) {
-                          return 'Please Enter Valid UPI ID';
-                        }
+                      // validator: (value) {
+                      //   if (value!.isEmpty) {
+                      //     return 'Please Enter UPI Id';
+                      //   } else if (!value.contains("@")) {
+                      //     return 'Please Enter Valid UPI ID';
+                      //   }
 
-                        return null; // Return null if the input is valid
-                      },
+                      //   return null; // Return null if the input is valid
+                      // },
                     ),
                     const SizedBox(
                       height: 50,
                     ),
                     InkWell(
                       onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          signUp();
+                        if (upiIdC.text.isEmpty&&banknameC.text.isEmpty) {
+
+                          Fluttertoast.showToast(msg: "Please Fill Bank Details/UPI id");
+
+                        }
+                        else {
+                          if(upiIdC.text.isNotEmpty){
+                            print("===my technic=======signup=upi============");
+
+                            signUp();
+                          }
+                          else{
+                            if(banknameC.text.isEmpty){
+                              Fluttertoast.showToast(msg: "Please Enter Bank Name");
+
+
+                            }
+                            else if(accountNumberC.text.isEmpty){
+                              Fluttertoast.showToast(msg: "Please Enter Account Number");
+
+                            }
+                            else if(ifscC.text.isEmpty){
+                              Fluttertoast.showToast(msg: "Please Enter IFSC Code");
+
+                            }
+                            else{
+                               signUp();
+                              print("===my technic=======signup=bank============");
+                            }
+
+                          }
+
                         }
                       },
                       child: !isLoading
@@ -304,7 +335,7 @@ var param={
   'city':  widget.city.toString(),
   'pin_code':  widget.pincode.toString(),
   'bank_name':  banknameC.text.toString(),
-  'account_number':  accountNumberC.toString(),
+  'account_number':  accountNumberC.text.toString(),
   'ifsc_code': ifscC.text.toString(),
   'upi_id': upiIdC.text.toString(),
   'longitude': '${long.toString()}',
@@ -312,6 +343,8 @@ var param={
 
   'driving_licence_photo': ''
 };
+
+
 List<Map<String, dynamic>> imagefile =[
   {
    "key": "user_image",
@@ -366,6 +399,7 @@ if(error==true){
   }
 
 
+
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -415,6 +449,7 @@ if(error==true){
 
 
   }
+
   @override
   void initState() {
     // TODO: implement initState

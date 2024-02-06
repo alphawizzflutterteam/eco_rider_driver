@@ -10,12 +10,12 @@ import '../../Helper/loadingwidget.dart';
 import '../../Widget/custom_app_button.dart';
 import '../auth/custumScreen.dart';
 import '../auth/loginScreen.dart';
-import '../dashboard/dashboardScreen.dart';
+import '../changepasswordinhome/changepasswordinHome.dart';
 import '../faq/faqScreen.dart';
-import '../notification/notification.dart';
 import '../privecy/privecy.dart';
 import '../support/customerSupport.dart';
 import '../termcondition/termCondition.dart';
+import '../tranjection/gettranjection.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
@@ -74,12 +74,12 @@ SizedBox(height: 20,),
                       },
                       child: tabProfile(context,"Update Profile")),
 
-                  // InkWell(
-                  //
-                  //     onTap: () {
-                  //       Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScr(),));
-                  //     },
-                  //     child: tabProfile(context,"Notifications")),
+                  InkWell(
+
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Tranjection(),));
+                      },
+                      child: tabProfile(context,"Wallet")),
 
                   // InkWell(
                   //
@@ -88,12 +88,12 @@ SizedBox(height: 20,),
                   //     },
                   //     child: tabProfile(context,"Booking History")),
 
-                  // InkWell(
-                  //
-                  //     onTap: () {
-                  //       Navigator.push(context, MaterialPageRoute(builder: (context) => Tranjection(),));
-                  //     },
-                  //     child: tabProfile(context,"Wallet")),
+                  InkWell(
+
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordinHome(),));
+                      },
+                      child: tabProfile(context,"Change Password")),
 
                   InkWell(
 

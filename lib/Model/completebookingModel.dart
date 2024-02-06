@@ -25,73 +25,106 @@ class CompleteBookingModel {
 
 class CompleateDeliverList {
   String? id;
-  String? title;
-  String? message;
+  String ?title;
+  String ?message;
   String? driverId;
-  String? userId;
+  String ? userId;
   dynamic address;
   String? bookingId;
   String? readUnread;
-  String? deleteStatus;
-  DateTime? addedNotifyDate;
+  String ?deleteStatus;
+  String? addedNotifyDate;
   String? notiId;
-  String? assignedBy;
-  String? amount;
+  String?assignedBy;
+  String ?amount;
   String? username;
-  String? email;
-  String? mobile;
-  String? tranjection;
-  DateTime? departureDate;
-  DateTime? returnDate;
-  String ?cityName;
-  String ?area;
+  String ?email;
+  String ?mobile;
+  String? userImage;
+  dynamic departureDate;
+  dynamic returnDate;
+  dynamic cityName;
+  dynamic area;
+  String? transaction;
+  String ?pickupAddress;
+  String ?dropAddress;
+  String? inOutCity;
+  String ?oneTowWay;
+  String? acceptReject;
+  String? bookingTimes;
+  String ?bookingTypes;
+  String? pickupDate;
+  String ?pickupTime;
+  String ?reportingTime;
 
   CompleateDeliverList({
-   this.id,
-   this.title,
-   this.message,
-   this.driverId,
-   this.userId,
-   this.address,
-   this.bookingId,
-   this.readUnread,
-   this.deleteStatus,
-   this.addedNotifyDate,
-   this.notiId,
-   this.assignedBy,
-   this.amount,
-   this.username,
-   this.email,
-   this.mobile,
-   this.tranjection,
-   this.departureDate,
-   this.returnDate,
-   this.cityName,
-   this.area,
+    this.id,
+    this.title,
+    this.message,
+    this.driverId,
+    this.userId,
+    this.address,
+    this.bookingId,
+    this.readUnread,
+    this.deleteStatus,
+    this.addedNotifyDate,
+    this.notiId,
+    this.assignedBy,
+    this.amount,
+    this.username,
+    this.email,
+    this.mobile,
+    this.userImage,
+    this.departureDate,
+    this.returnDate,
+    this.cityName,
+    this.area,
+    this.transaction,
+    this.pickupAddress,
+    this.dropAddress,
+    this.inOutCity,
+    this.oneTowWay,
+    this.acceptReject,
+    this.bookingTimes,
+    this.bookingTypes,
+    this.pickupDate,
+    this.pickupTime,
+    this.reportingTime,
   });
 
   factory CompleateDeliverList.fromJson(Map<String, dynamic> json) => CompleateDeliverList(
-    id: json["id"]??"",
-    title: json["title"]??"",
-    message: json["message"]??"",
-    driverId: json["driver_id"]??"",
-    userId: json["user_id"]??"",
-    address: json["address"]??"",
-    bookingId: json["booking_id"]??"",
-    readUnread: json["read_unread"]??"",
-    deleteStatus: json["delete_status"]??"",
-    addedNotifyDate: DateTime.parse(json["added_notify_date"]),
-    notiId: json["noti_id"]??"",
-    assignedBy: json["assigned_by"]??"",
-    amount: json["amount"]??"",
-    username: json["username"]??"",
-    email: json["email"]??"",
-    mobile: json["mobile"]??"",
-    tranjection: json["transaction"]??"",
-    departureDate: DateTime.parse(json["departure_date"]),
-    returnDate: DateTime.parse(json["return_date"]),
-    cityName: json["city_name"]??"",
-    area: json["area"]??"",
+    id: json["id"],
+    title: json["title"],
+    message: json["message"],
+    driverId: json["driver_id"],
+    userId: json["user_id"],
+    address: json["address"],
+    bookingId: json["booking_id"],
+    readUnread: json["read_unread"],
+    deleteStatus: json["delete_status"],
+    addedNotifyDate: json["added_notify_date"],
+    notiId: json["noti_id"],
+    assignedBy: json["assigned_by"],
+    amount: json["amount"],
+    username: json["username"],
+    email: json["email"],
+    mobile: json["mobile"],
+    userImage: json["user_image"],
+    departureDate: json["departure_date"],
+    returnDate: json["return_date"],
+    cityName: json["city_name"],
+    area: json["area"],
+    transaction: json["transaction"],
+    pickupAddress: json["pickup_address"],
+    dropAddress: json["drop_address"],
+    inOutCity: json["in_out_city"],
+    oneTowWay: json["one_tow_way"],
+    acceptReject: json["accept_reject"],
+    bookingTimes: json["booking_times"],
+    bookingTypes: json["booking_types"],
+    pickupDate: json["pickup_date"],
+    pickupTime: json["pickup_time"],
+    reportingTime: json["reporting_time"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -111,10 +144,21 @@ class CompleateDeliverList {
     "username": username,
     "email": email,
     "mobile": mobile,
-    "transaction": tranjection,
-    "departure_date":deleteStatus,
+    "user_image": userImage,
+    "departure_date": departureDate,
     "return_date": returnDate,
     "city_name": cityName,
     "area": area,
+    "transaction": transaction,
+    "pickup_address": pickupAddress,
+    "drop_address": dropAddress,
+    "in_out_city": inOutCity,
+    "one_tow_way": oneTowWay,
+    "accept_reject": acceptReject,
+    "booking_times": bookingTimes,
+    "booking_types": bookingTypes,
+    "pickup_date": pickupDate,
+    "pickup_time": pickupTime,
+    "reporting_time": reportingTime,
   };
 }

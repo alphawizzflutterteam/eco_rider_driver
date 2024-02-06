@@ -1,6 +1,12 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Api services/api_services/apiBasehelper.dart';
 import '../../Api services/api_services/apiStrings.dart';
 import '../../Helper/Colors.dart';
@@ -9,6 +15,8 @@ import '../../Model/bookingModel.dart';
 import '../../Widget/customeTost.dart';
 import '../auth/custumScreen.dart';
 import 'package:intl/intl.dart';
+
+import '../complete booking/bookingdetails.dart';
 
 
 class HomeScr extends StatefulWidget {
@@ -27,6 +35,7 @@ class _HomeScrState extends State<HomeScr> {
       RefreshIndicator(
         color: AppColors.primary,
         onRefresh: () async {
+          getactive();
           getdeliveries();
         },
         child: ListView.builder(
@@ -41,7 +50,7 @@ class _HomeScrState extends State<HomeScr> {
               Stack(
                 children: [
 
-                  customdwithoutBackScr(context, "Booking"),
+                  customdwithoutBackScr11(context, "Booking",getActive??true),
 
                   Container(
                     margin:
@@ -115,144 +124,114 @@ class _HomeScrState extends State<HomeScr> {
                               return
 
 
-                                InkWell(
-                                  onTap: () {
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: InkWell(
+                                    onTap: () {
+                                  if(todayDeliverList[index]
+                                      .deleteStatus!="0") {
+
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                        BookingDetails(compleateDeliver: todayDeliverList[index],driverId:userId.toString() ),));
+                                  }
+
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12.0),
+                                      ),
+                                      child: Container(
+                                        // height: 300,
+                                        child:
 
 
-                                  },
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12.0),
-                                    ),
-                                    child: Container(
-                                      height: 300,
-                                      child:
+                                        Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Column(
+                                              mainAxisAlignment: MainAxisAlignment
+                                                  .spaceEvenly,
+                                              children: [
 
 
-                                      Padding(
-                                        padding: const EdgeInsets.all(15),
-                                        child: Column(
-                                            mainAxisAlignment: MainAxisAlignment
-                                                .spaceEvenly,
-                                            children: [
+
+                                                SizedBox(height: 20,),
+                                                Row(
+                                                  children: [
+
+                                                    Container(height: 90,
+                                                      width: 80,
+                                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+
+                                                          image: DecorationImage(image: NetworkImage('${todayDeliverList[index].userImage}'),fit: BoxFit.fill)
+                                                      ),
+                                                    ),
+
+                                                    Spacer(),
+
+                                                    Column(children: [
+
+                                                      InkWell(
+                                                        onTap: () {
+
+                                                          _launchPhoneApp(todayDeliverList[index].mobile);
+                                                        },
+                                                        child: Container(height: 30,
+
+                                                          width: 30,
+
+                                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+
+                                                              image: DecorationImage(image: AssetImage('assets/images/phone-call.png'),fit: BoxFit.fill)
+                                                          ),
+
+                                                        ),
+                                                      ),
+
+                                                      SizedBox(height: 10,),
+                                                      InkWell(
+                                                        onTap: () {
+
+                                                          _launchEmailApp("${todayDeliverList[index].userEmail}");
+
+                                                        },
+                                                        child: Container(height: 30,
+
+                                                          width: 30,
+
+                                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+
+                                                              image: DecorationImage(image: AssetImage('assets/images/gmail.png'),fit: BoxFit.fill)
+                                                          ),
+
+                                                        ),
+                                                      ),
 
 
-                                              Row(
-                                                children: [
+                                                    ],)
+                                                  ],
 
 
-                                                  Text('Booking Id - ',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight
-                                                            .w500),),
-                                                  Spacer(),
+                                                ),
+                                                // CircleAvatar(
+                                                //   radius: 35,
+                                                //   backgroundColor: AppColors.primary,
+                                                //   child: CircleAvatar(radius: 32,
+                                                //
+                                                //
+                                                //   backgroundImage:NetworkImage("${todayDeliverList[index]
+                                                //       .userImage}") ,
+                                                //   ),
+                                                //
+                                                // ),
+                                                //
 
-                                                  Text(
-                                                    '${todayDeliverList[index]
-                                                        .bookingId}',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight
-                                                            .w500),),
-                                                ],
-                                              ), SizedBox(height: 5,),
-
-                                              Row(
-                                                children: [
-                                                  Text('Owner Name - ',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight
-                                                            .w500),),
-                                                  Spacer(),
-
-                                                  Text(
-                                                    '${todayDeliverList[index]
-                                                        .username}',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight
-                                                            .w500),),
-
-                                                ],
-                                              ), SizedBox(height: 5,),
-
-                                              Row(
-                                                children: [
-                                                  Text('Pickup - ',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight
-                                                            .w500),),
-                                                  Spacer(),
-
-                                                  Text(
-                                                    '${todayDeliverList[index]
-                                                        .cityName}',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight
-                                                            .w500),),
-
-                                                ],
-                                              ), SizedBox(height: 5,),
-
-                                              Row(
-                                                children: [
-                                                  Text('Booking Type - ',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight
-                                                            .w500),),
-                                                  Spacer(),
-
-                                                  Text(
-                                                    '${todayDeliverList[index]
-                                                        .area}',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight
-                                                            .w500),),
-                                                ],
-                                              ),
-
-                                              SizedBox(height: 5,),
-
-
-                                              Row(
-                                                children: [
-                                                  Text('Total Amount - ',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight
-                                                            .w500),),
-                                                  Spacer(),
-
-                                                  Text(
-                                                    'RS ${todayDeliverList[index]
-                                                        .amount}/-',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight
-                                                            .w500),),
-                                                ],
-                                              ),
-
-                                              SizedBox(height: 5,),
-
-                                              todayDeliverList[index]
-                                                  .deleteStatus == "1" ?
-                                              InkWell(
-                                                onTap: () {
-
-                                                },
-                                                child:
-
+                                                SizedBox(height: 20,),
 
                                                 Row(
                                                   children: [
-                                                    Text('Booking Status - ',
+
+
+                                                    Text('Booking Id - ',
                                                       style: TextStyle(
                                                           fontSize: 15,
                                                           fontWeight: FontWeight
@@ -260,101 +239,347 @@ class _HomeScrState extends State<HomeScr> {
                                                     Spacer(),
 
                                                     Text(
-                                                      'Accepted',
+                                                      '${todayDeliverList[index]
+                                                          .bookingId}',
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .w500),),
+                                                  ],
+                                                ), SizedBox(height: 5,),
+
+                                                Row(
+                                                  children: [
+                                                    Text('Owner Name - ',
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .w500),),
+                                                    Spacer(),
+
+                                                    Text(
+                                                      '${todayDeliverList[index]
+                                                          .username}',
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .w500),),
+
+                                                  ],
+                                                ), SizedBox(height: 5,),
+
+                                                Row(
+                                                  children: [
+                                                    Text('Pickup Address - ',
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .w500),),
+                                                    Spacer(),
+
+                                                    SizedBox(
+                                                      width: MediaQuery.of(context).size.width/2.5,
+                                                      child: Text(
+                                                        '${todayDeliverList[index]
+                                                            .pickupAddress}',
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight: FontWeight
+                                                                .w500),overflow: TextOverflow.ellipsis,maxLines: 3,),
+                                                    ),
+
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5,),
+
+                                                Row(
+                                                  children: [
+                                                    Text('Drop Address - ',
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .w500),),
+                                                    Spacer(),
+
+                                                    SizedBox(
+                                                      width: MediaQuery.of(context).size.width/2.5,
+                                                      child: Text(
+                                                        '${todayDeliverList[index]
+                                                            .dropAddress}',
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight: FontWeight
+                                                                .w500),overflow: TextOverflow.ellipsis,maxLines: 3,),
+                                                    ),
+
+                                                  ],
+                                                ),
+
+
+
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+
+
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      'Reporting Time - ',
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w500),
+                                                    ),
+                                                    const Spacer(),
+                                                    Text(
+                                                      '${todayDeliverList[index].reportingTime}',
+                                                      style: const TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w500),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                // const SizedBox(
+                                                //   height: 5,
+                                                // ),
+                                                //
+                                                //
+                                                // Row(
+                                                //   children: [
+                                                //     const Text(
+                                                //       'In City/Out City - ',
+                                                //       style: TextStyle(
+                                                //           fontSize: 15,
+                                                //           fontWeight:
+                                                //           FontWeight
+                                                //               .w500),
+                                                //     ),
+                                                //     const Spacer(),
+                                                //     Text(
+                                                //       '${todayDeliverList[index].inOutCity}',
+                                                //       style: const TextStyle(
+                                                //           fontSize: 15,
+                                                //           fontWeight:
+                                                //           FontWeight
+                                                //               .w500),
+                                                //     ),
+                                                //   ],
+                                                // ),
+                                                //
+                                                // const SizedBox(
+                                                //   height: 5,
+                                                // ),
+                                                // Row(
+                                                //   children: [
+                                                //     const Text(
+                                                //       'One Way/Two Way - ',
+                                                //       style: TextStyle(
+                                                //           fontSize: 15,
+                                                //           fontWeight:
+                                                //           FontWeight
+                                                //               .w500),
+                                                //     ),
+                                                //     const Spacer(),
+                                                //     Text(
+                                                //       '${todayDeliverList[index].oneTowWay}',
+                                                //       style: const TextStyle(
+                                                //           fontSize: 15,
+                                                //           fontWeight:
+                                                //           FontWeight
+                                                //               .w500),
+                                                //     ),
+                                                //   ],
+                                                // ),
+                                                // SizedBox(height: 5,),
+                                                //
+                                                // Row(
+                                                //   children: [
+                                                //     Text('Booking Date',
+                                                //       style: TextStyle(
+                                                //           fontSize: 15,
+                                                //           fontWeight: FontWeight
+                                                //               .w500),),
+                                                //     Spacer(),
+                                                //
+                                                //     Text(
+                                                //       '${todayDeliverList[index]
+                                                //           .pickupDate}',
+                                                //       style: TextStyle(
+                                                //           fontSize: 15,
+                                                //           fontWeight: FontWeight
+                                                //               .w500),),
+                                                //   ],
+                                                // ),
+                                                //
+                                                // SizedBox(height: 5,),
+                                                //
+                                                // Row(
+                                                //   children: [
+                                                //     Text('Booking Time',
+                                                //       style: TextStyle(
+                                                //           fontSize: 15,
+                                                //           fontWeight: FontWeight
+                                                //               .w500),),
+                                                //     Spacer(),
+                                                //
+                                                //     Text(
+                                                //       '${todayDeliverList[index]
+                                                //           .pickupTime}',
+                                                //       style: TextStyle(
+                                                //           fontSize: 15,
+                                                //           fontWeight: FontWeight
+                                                //               .w500),),
+                                                //   ],
+                                                // ),
+                                                SizedBox(height: 5,),
+
+
+                                                Row(
+                                                  children: [
+                                                    Text('Total Amount - ',
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .w500),),
+                                                    Spacer(),
+
+                                                    Text(
+                                                      'RS ${todayDeliverList[index]
+                                                          .amount}/-',
                                                       style: TextStyle(
                                                           fontSize: 15,
                                                           fontWeight: FontWeight
                                                               .w500),),
                                                   ],
                                                 ),
-                                              ) :
 
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment
-                                                    .spaceBetween,
-                                                children: [
+                                                SizedBox(height: 5,),
+
+                                                todayDeliverList[index]
+                                                    .deleteStatus == "1" ?
+                                                // InkWell(
+                                                //   onTap: () {
+                                                //
+                                                //   },
+                                                //   child:
+                                                //
+                                                //
+                                                //   Row(
+                                                //     children: [
+                                                //       Text('Booking Status - ',
+                                                //         style: TextStyle(
+                                                //             fontSize: 15,
+                                                //             fontWeight: FontWeight
+                                                //                 .w500),),
+                                                //       Spacer(),
+                                                //
+                                                //       Text(
+                                                //         'Accepted',
+                                                //         style: TextStyle(
+                                                //             fontSize: 15,
+                                                //             fontWeight: FontWeight
+                                                //                 .w500),),
+                                                //     ],
+                                                //   ),
+                                                // )
+                                                  SizedBox.shrink()
+                                                    :
+
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment
+                                                      .spaceBetween,
+                                                  children: [
 
 
-                                                  InkWell(
-                                                    onTap: () {
+                                                    InkWell(
+                                                      onTap: () {
 
-                                                      _showMyDialog(
-                                                          todayDeliverList[index]
-                                                              .bookingId ?? "",false
-                                                      );
+                                                        // _showMyDialog(
+                                                        //     todayDeliverList[index]
+                                                        //         .bookingId ?? "",false
+                                                        // );
+                                                        accept(todayDeliverList[index].bookingId??"");
 
 
+                                                      },
+                                                      child: Container(height: 40,
 
-                                                    },
-                                                    child: Container(height: 40,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius
+                                                                .circular(8),
 
-                                                      decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius
-                                                              .circular(8),
-
-                                                          color: Colors.green
+                                                            color: Colors.green
+                                                        ),
+                                                        width: MediaQuery
+                                                            .of(context)
+                                                            .size
+                                                            .width / 2.7,
+                                                        child: Center(
+                                                          child: Text('Accept'),),
                                                       ),
-                                                      width: MediaQuery
-                                                          .of(context)
-                                                          .size
-                                                          .width / 2.7,
-                                                      child: Center(
-                                                        child: Text('Accept'),),
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 5,),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      reject(
-                                                          todayDeliverList[index]
-                                                              .bookingId ?? "");
-                                                      getdeliveries();
-                                                    },
-                                                    child: Container(height: 40,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius
-                                                              .circular(8),
+                                                    SizedBox(height: 5,),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        reject(
+                                                            todayDeliverList[index]
+                                                                .bookingId ?? "");
+                                                        getdeliveries();
+                                                      },
+                                                      child: Container(height: 40,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius
+                                                                .circular(8),
 
-                                                          color: Colors.red),
-                                                      width: MediaQuery
-                                                          .of(context)
-                                                          .size
-                                                          .width / 2.7,
-                                                      child: Center(
-                                                        child: Text('Reject'),),
+                                                            color: Colors.red),
+                                                        width: MediaQuery
+                                                            .of(context)
+                                                            .size
+                                                            .width / 2.7,
+                                                        child: Center(
+                                                          child: Text('Reject'),),
+                                                      ),
                                                     ),
-                                                  ),
 
-                                                ],
-                                              ),
-                                              todayDeliverList[index]
-                                                  .deleteStatus == "1" ?
-                                              InkWell(
-                                                onTap: () {
-                                                  _showMyDialog(
-                                                      todayDeliverList[index]
-                                                          .bookingId ?? "",true
-                                                  );
-                                                },
-                                                child: Container(height: 40,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius
-                                                          .circular(8),
-
-                                                      color: Colors.green),
-                                                  width: MediaQuery
-                                                      .of(context)
-                                                      .size
-                                                      .width,
-                                                  child: Center(
-                                                    child: Text('Press here For Complete This Order'),),
+                                                  ],
                                                 ),
-                                              ):SizedBox.shrink(),
+                                                todayDeliverList[index]
+                                                    .deleteStatus == "1" ?
+                                                InkWell(
+                                                  onTap: () {
 
-                                            ]),
-                                      )
-                                      ,),
 
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(height: 5,),
+                                                      Container(height: 40,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius
+                                                                .circular(8),
+
+                                                            color: Colors.green),
+                                                        width: MediaQuery
+                                                            .of(context)
+                                                            .size
+                                                            .width,
+                                                        child: Center(
+                                                          child: Text('Accepted'),),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ):SizedBox.shrink(),
+
+                                              ]),
+                                        )
+                                        ,),
+
+                                    ),
                                   ),
                                 );
                             },),
@@ -391,11 +616,19 @@ class _HomeScrState extends State<HomeScr> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-
+    _startTimer();
+    getactive();
     getdeliveries();
+
   }
 
+  bool? getActive;
+Future<void> getactive() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  getActive= await prefs.getBool('IsActive');
+    print("===my technic==getBool=====${getActive}===============");
+
+}
 
   bool isLoading = false;
   BookingModel?bookingModel;
@@ -515,8 +748,8 @@ class _HomeScrState extends State<HomeScr> {
                                 :
                             TextFormField(
                               onTap: () {
-
                                 sselectDate(context);
+                                // sselectDate(context);
 
                               },
                               readOnly: true,
@@ -578,7 +811,10 @@ class _HomeScrState extends State<HomeScr> {
                                   style: ElevatedButton.styleFrom(
                                       primary:
                                       AppColors.primary),
-                                  child: const Text("Accept Booking"),
+                                  child:
+
+
+                                  Text( iscompleteBooking==true?"Complete Booking":"Accept Booking"),
                                   onPressed: () {
                                     if (formKey.currentState!
                                         .validate()) {
@@ -660,7 +896,7 @@ class _HomeScrState extends State<HomeScr> {
     var param = {
       'booking_id': bookingId.toString(),
       'driver_id': userId.toString(),
-      'reporting_time': dattimecontroller.text.toString(),
+      // 'reporting_time': dattimecontroller.text.toString(),
     };
     apiBaseHelper.postAPICall(getBookingAcceptUrl, param).then((getData) {
       bool error = getData['status'];
@@ -669,16 +905,13 @@ class _HomeScrState extends State<HomeScr> {
       if (error == true) {
         customSnackbar(context, msg.toString());
 
-        dattimecontroller.clear();
-        Navigator.pop(context);
-        getdeliveries();
+         getdeliveries();
         setState(() {
 
         });
       }
       else{
-        customSnackbar(context, msg.toString());
-        Navigator.pop(context);
+
         setState(() {
 
         });
@@ -691,28 +924,153 @@ class _HomeScrState extends State<HomeScr> {
   TextEditingController dattimecontroller = TextEditingController();
   TextEditingController otpcontroller = TextEditingController();
 
-  DateTime selectedDate = DateTime.now();
 
-  Future<void> sselectDate(BuildContext context,) async {
-    // final DateTime? picked = await showDatePicker(
-    //
-    //   context: context,
-    //   initialDate: DateTime.now(),
-    //   firstDate: DateTime.now(),
-    //   lastDate: DateTime(2100),
-    // );
-    // if (picked != null && picked != selectedDate)
-    //   selectedDate = picked;
+  var selectdateee;
+  var selectTimeee;
+  var datetimeselect;
+
+  Future<void> selectTimeEE(BuildContext context,) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext? context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: false),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+
+      selectTimeee = formatTime(picked);
+      print("===my technic=======${selectTimeee}===============");
+
+      setState(() {
+        dattimecontroller.text="${selectdateee}/${selectTimeee}";
+      });
 
 
-    dattimecontroller.text =
-        DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now());
-    print("==================${dattimecontroller.text}");
-    setState(() {
-
-    });
-
-
-
+    }
   }
+
+  String formatTime(TimeOfDay time) {
+    int hour = time.hourOfPeriod ?? 0;
+    int minute = time.minute ?? 0;
+    String period = time.period == DayPeriod.am ? 'AM' : 'PM';
+
+    return '$hour:${minute.toString().padLeft(2, '0')} $period';
+  }
+
+  DateTime selectedDate = DateTime.now();
+  Future<void> sselectDate(BuildContext context,) async {
+
+    final DateTime? picked = await showDatePicker(
+
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null && picked != selectedDate)
+
+      selectedDate = picked;
+    selectdateee =
+          DateFormat('yyyy-MM-dd').format(selectedDate);
+      print("==================${selectdateee}");
+      setState(() {
+
+      });
+// Navigator.pop(context);
+    selectTimeEE(context);
+  }
+
+  _launchPhoneApp(var num) async {
+    final url = 'tel:$num';
+    if (await launch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _launchEmailApp(var mailId) async {
+    final Uri uri = Uri(
+      scheme: 'mailto',
+      path: mailId,
+
+    );
+
+    final String url = uri.toString();
+
+    if (await launch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   getdeliveries();
+  // }
+
+  CollectionReference humanCollection =
+  FirebaseFirestore.instance.collection("driverlocation");
+
+  Future<void> updateDriverLocation() async {
+    print("location store function Start===========");
+
+    humanCollection.doc('$userId').set({
+      'lat': currentLocation?.latitude,
+      'long': currentLocation?.longitude,
+    }, SetOptions(merge: true));
+
+    print("location store success===========");
+  }
+
+  var lat;
+  var long;
+
+  Position? currentLocation;
+
+  Future getUserCurrentLocation() async {
+    var status = await Permission.location.request();
+    if (status.isDenied) {
+    } else if (status.isGranted) {
+      await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high)
+          .then((position) {
+        if (mounted)
+          setState(() {
+            currentLocation = position;
+            lat = currentLocation?.latitude;
+            long = currentLocation?.longitude;
+          });
+      });
+      updateDriverLocation();
+      // addData();
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
+    }
+  }
+
+  late Timer _timer;
+
+  void _startTimer() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString('userId');
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) async {
+      await getUserCurrentLocation();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+
+    super.dispose();
+  }
+
 }

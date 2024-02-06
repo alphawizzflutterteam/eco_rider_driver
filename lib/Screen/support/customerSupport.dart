@@ -205,7 +205,7 @@ class _SupportScrState extends State<SupportScr> {
     }
   }
   _makePhoneCall(String phoneNumber) async {
-    if (await canLaunch(phoneNumber)) {
+    if (await launch(phoneNumber)) {
       await launch(phoneNumber);
     } else {
       throw 'Could not launch $phoneNumber';
@@ -217,7 +217,7 @@ class _SupportScrState extends State<SupportScr> {
       path: emailAddress,
     );
 
-    if (await canLaunch(emailLaunchUri.toString())) {
+    if (await launch(emailLaunchUri.toString())) {
       await launch(emailLaunchUri.toString());
     } else {
       throw 'Could not launch $emailAddress';
