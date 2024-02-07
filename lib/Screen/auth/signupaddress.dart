@@ -39,10 +39,16 @@ class _AddressSignUpScreenState extends State<AddressSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
+      body:
+
+      Form(
         key: _formKey,
         child: Stack(
           children: [
+
+
+
+
 
 
             customAuthDegine(context,"assets/images/sign up.png"),
