@@ -1,12 +1,10 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../Api services/api_services/apiBasehelper.dart';
 import '../../Api services/api_services/apiStrings.dart';
 import '../../Helper/Colors.dart';
 import '../../Helper/loadingwidget.dart';
-import '../../Model/bookingModel.dart';
 import '../../Model/completebookingModel.dart';
 import '../auth/custumScreen.dart';
 import 'completeBookingDetails.dart';
@@ -27,12 +25,13 @@ class _CompleateDelivScrState extends State<CompleateDelivScr> {
         getdeliveries();
       },
       child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
         itemCount: 1,
         itemBuilder: (context, index) {
           return !isLoading
               ? Stack(
                   children: [
-
                     customdwithoutBackScr(context, "Complete Bookings List"),
                     Container(
                       margin: EdgeInsets.only(
@@ -80,16 +79,25 @@ class _CompleateDelivScrState extends State<CompleateDelivScr> {
                                         1.5,
                                     child: ListView.builder(
                                       shrinkWrap: true,
-                                      physics: const AlwaysScrollableScrollPhysics(),
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
                                       itemCount: TodayDeliverList.length ?? 0,
                                       itemBuilder: (context, index) {
                                         return Padding(
-                                          padding: const EdgeInsets.only(bottom: 20),
+                                          padding:
+                                              const EdgeInsets.only(bottom: 20),
                                           child: InkWell(
                                             onTap: () {
-
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                                  BookingggDetails(compleateDeliver: TodayDeliverList[index]),));                                          },
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        BookingggDetails(
+                                                            compleateDeliver:
+                                                                TodayDeliverList[
+                                                                    index]),
+                                                  ));
+                                            },
                                             child: Card(
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -100,17 +108,13 @@ class _CompleateDelivScrState extends State<CompleateDelivScr> {
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.all(15),
-                                                  child:
-
-                                                  Column(
+                                                  child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .spaceEvenly,
                                                       children: [
                                                         Row(
                                                           children: [
-
-
                                                             const Text(
                                                               'Booking Id - ',
                                                               style: TextStyle(
@@ -219,19 +223,27 @@ class _CompleateDelivScrState extends State<CompleateDelivScr> {
                                                             ),
                                                             const Spacer(),
                                                             SizedBox(
-                                                              width: MediaQuery.of(context).size.width/2.5,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.5,
                                                               child: Text(
                                                                 '${TodayDeliverList[index].pickupAddress}',
                                                                 style: const TextStyle(
-                                                                    fontSize: 15,
+                                                                    fontSize:
+                                                                        15,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .w500),overflow: TextOverflow.ellipsis,maxLines: 3,
+                                                                            .w500),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 3,
                                                               ),
                                                             ),
                                                           ],
                                                         ),
-
 
                                                         const SizedBox(
                                                           height: 5,
@@ -243,19 +255,28 @@ class _CompleateDelivScrState extends State<CompleateDelivScr> {
                                                               style: TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+                                                                      FontWeight
+                                                                          .w500),
                                                             ),
                                                             const Spacer(),
                                                             SizedBox(
-                                                              width: MediaQuery.of(context).size.width/2.5,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.5,
                                                               child: Text(
                                                                 '${TodayDeliverList[index].dropAddress}',
                                                                 style: const TextStyle(
-                                                                    fontSize: 15,
+                                                                    fontSize:
+                                                                        15,
                                                                     fontWeight:
-                                                                    FontWeight
-                                                                        .w500),overflow: TextOverflow.ellipsis,maxLines: 3,
+                                                                        FontWeight
+                                                                            .w500),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 3,
                                                               ),
                                                             ),
                                                           ],

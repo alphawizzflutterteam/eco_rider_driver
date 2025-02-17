@@ -1,6 +1,7 @@
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../../Helper/Colors.dart';
 import '../complete booking/completeBooking.dart';
 import '../homepage/homePage.dart';
@@ -20,118 +21,118 @@ class _DashboardState extends State<Dashboard> {
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
   @override
   void initState() {
-    int? index=0;
+    int? index = 0;
 
-    if (index ==0) {
-
+    if (index == 0) {
       setState(() {
-        selectedIndex =0;
+        selectedIndex = 0;
       });
-      _child =  selectedIndex== 0
-          ? HomeScr():
-      Container();
+      _child = selectedIndex == 0 ? const HomeScr() : Container();
     } else {
       _child = Container();
     }
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return
-      WillPopScope(
-        onWillPop: () async {
-          showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("Confirm Exit"),
-                  content: Text("Are you sure you want to exit?"),
-                  actions: <Widget>[
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: AppColors.primary),
-                      child: Text("YES"),
-                      onPressed: () {
-                        SystemNavigator.pop();
-                      },
+    return WillPopScope(
+      onWillPop: () async {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Confirm Exit"),
+                content: const Text("Are you sure you want to exit?"),
+                actions: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: AppColors.primary),
+                    child: const Text(
+                      "YES",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: AppColors.primary),
-                      child: Text("NO"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                );
-              });
-          return true;
-        },
-        child: SafeArea(
+                    onPressed: () {
+                      SystemNavigator.pop();
+                    },
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: AppColors.primary),
+                    child: const Text(
+                      "NO",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            });
+        return true;
+      },
+      child: SafeArea(
           child: Scaffold(
-            key: _key,
-            body: _child,
-            bottomNavigationBar: FluidNavBar(
-              icons: [
-                FluidNavBarIcon(
-                    icon: Icons.home,
-                    // unselectedForegroundColor: Colors.grey,
-                    selectedForegroundColor: Colors.white,
-                    //  svgPath: "assets/home.svg",
-                    backgroundColor: AppColors.primary,
-                    unselectedForegroundColor: Colors.white,
-                    //  selectedIndex == 1 ? colors.primary : colors.white10,
-                    extras: {"label": "Home"}),
-                FluidNavBarIcon(
-                  // unselectedForegroundColor: Colors.grey,
-                    selectedForegroundColor: Colors.white,
-                    icon: Icons.screen_lock_landscape,
-                    backgroundColor: AppColors.primary,
-                    unselectedForegroundColor: Colors.white,
-                    //  selectedIndex == 1 ? colors.primary : colors.white10,
-                    extras: {"label": "Complete"}),
-                FluidNavBarIcon(
-                    icon: Icons.person,
-                    // unselectedForegroundColor: Colors.grey,
-                    selectedForegroundColor: Colors.white,
-                    unselectedForegroundColor: Colors.white,
-                    backgroundColor:
-                    AppColors.primary,
-
-                    extras: {"label": "My Profile"}),
-
+        key: _key,
+        body: _child,
+        bottomNavigationBar: FluidNavBar(
+          icons: [
+            FluidNavBarIcon(
+                icon: Icons.home,
+                // unselectedForegroundColor: Colors.grey,
+                selectedForegroundColor: Colors.white,
+                //  svgPath: "assets/home.svg",
+                backgroundColor: AppColors.primary,
+                unselectedForegroundColor: Colors.white,
+                //  selectedIndex == 1 ? colors.primary : colors.white10,
+                extras: {"label": "Home"}),
+            FluidNavBarIcon(
+                // unselectedForegroundColor: Colors.grey,
+                selectedForegroundColor: Colors.white,
+                icon: Icons.screen_lock_landscape,
+                backgroundColor: AppColors.primary,
+                unselectedForegroundColor: Colors.white,
+                //  selectedIndex == 1 ? colors.primary : colors.white10,
+                extras: {"label": "Complete"}),
+            FluidNavBarIcon(
+                icon: Icons.person,
+                // unselectedForegroundColor: Colors.grey,
+                selectedForegroundColor: Colors.white,
+                unselectedForegroundColor: Colors.white,
+                backgroundColor: AppColors.primary,
+                extras: {"label": "My Profile"}),
+          ],
+          onChange: _handleNavigationChange,
+          style: const FluidNavBarStyle(
+            barBackgroundColor: AppColors.primary,
+          ),
+          scaleFactor: 1.2,
+          defaultIndex: selectedIndex,
+          animationFactor: 0.5,
+          itemBuilder: (icon, item) => Semantics(
+            label: icon.extras!["label"],
+            container: true,
+            enabled: true,
+            child: Stack(
+              children: [
+                item,
+                Container(
+                    width: MediaQuery.of(context).size.width * 0.25 - 25,
+                    margin: const EdgeInsets.only(top: 40),
+                    child: Center(
+                        child: Text(
+                      icon.extras!["label"],
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold),
+                    )))
               ],
-              onChange: _handleNavigationChange,
-              style: FluidNavBarStyle(
-                barBackgroundColor: AppColors.primary,
-              ),
-              scaleFactor: 1.2,
-              defaultIndex: selectedIndex,
-              animationFactor: 0.5,
-              itemBuilder: (icon, item) => Semantics(
-                label: icon.extras!["label"],
-                container: true,
-                enabled: true,
-                child: Stack(
-                  children: [
-                    item,
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.25 - 25,
-                        margin: EdgeInsets.only(top: 40),
-                        child: Center(
-                            child: Text(
-                              icon.extras!["label"],
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold),
-                            )))
-                  ],
-                ),
-              ),
             ),
-          )),
-      );
+          ),
+        ),
+      )),
+    );
   }
 
   void _handleNavigationChange(int index) {
@@ -139,24 +140,21 @@ class _DashboardState extends State<Dashboard> {
       selectedIndex = index;
       switch (index) {
         case 0:
-          _child =HomeScr();
+          _child = const HomeScr();
           break;
         case 1:
-          _child =CompleateDelivScr();
+          _child = const CompleateDelivScr();
           break;
         case 2:
-          _child = UserProfile();
+          _child = const UserProfile();
           break;
-
       }
       _child = AnimatedSwitcher(
         switchInCurve: Curves.bounceOut,
         switchOutCurve: Curves.bounceIn,
-        duration: Duration(milliseconds: 600),
+        duration: const Duration(milliseconds: 600),
         child: _child,
       );
     });
   }
 }
-
-
